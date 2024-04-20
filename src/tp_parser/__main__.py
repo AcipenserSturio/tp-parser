@@ -8,6 +8,7 @@ import pandas as pd
 SOURCE = "assets/my_grammar.txt"
 SENTENCES = "assets/test_sentences.txt"
 TATOEBA = "assets/tok_sentences.tsv"
+PARSED = "parsed.tsv"
 
 # https://stackoverflow.com/questions/25735644/python-regex-for-splitting-text-into-sentences-sentence-tokenizing#25736082
 # Modified to include "!"
@@ -18,6 +19,22 @@ with open(SOURCE) as f:
     grammar = f.read()
 grammar1 = nltk.CFG.fromstring(grammar)
 rd_parser = nltk.RecursiveDescentParser(grammar1)
+
+
+def add_parsed(sent: str, tree: str):
+    with open(PARSED, "a") as f:
+        f.write(f"{sent}\t{tree}\n")
+
+
+def is_parsed(string: str) -> bool:
+    with open(PARSED) as f:
+        for line in csv.reader(f, delimiter="\t"):
+            if not line:
+                continue
+            sent, tree = line
+            if string == sent:
+                return True
+        return False
 
 
 def get_test_sentences():
@@ -66,18 +83,18 @@ def parse(sent: str):
 
 
 def test_parser():
-    cases = []
     for index, sent in enumerate(get_test_sentences()):
+        if is_parsed(sent):
+            continue
+        print(index)
         tree = parse(sent)
         # tree.pretty_print()
 
         tree = tree.pformat(margin=99999) if tree else "FAILED"
-        cases.append([sent, tree])
-        if not index % 10:
-            print(index)
-        if index == 100:
-            break
-    pd.DataFrame(cases, columns=["Sentence", "Parse"]).to_csv("test.csv")
+        if tree == "FAILED":
+            print(f"FAILED #{index}: {sent}")
+
+        add_parsed(sent, tree)
 
 
 if __name__ == "__main__":

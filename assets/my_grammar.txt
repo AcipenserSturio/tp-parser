@@ -27,7 +27,7 @@ NP_o -> NP F_o
 # Not supported:
 # * infinite modifiers
 # * nested or chained pi
-NP -> N | NQ | N N | N N N | N N N N | N F_pi N N | N N F_pi N N | N N N F_pi N N | N N N F_pi N N | N N F_pi N N N | N N N F_pi N N N | N N N F_pi N N N | N F_pi N F_pi N N | N N F_pi N F_pi N N | N N N F_pi N F_pi N N
+NP -> N | NQ | N N | N N N | N N N N | N F_pi N N | N F_pi N N N | N N F_pi N N | N N N F_pi N N | N N N F_pi N N | N N F_pi N N N | N N N F_pi N N N | N F_pi N F_pi N N | N N F_pi N F_pi N N | N N N F_pi N F_pi N N
 
 # Represents a predicate, i.e. verb phrase including arguments and adjuncts
 # May be conjoined using li or o

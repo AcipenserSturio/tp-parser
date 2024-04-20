@@ -1,3 +1,6 @@
+# Project-specific
+parsed.tsv
+
 # PDM
 .pdm-python
 

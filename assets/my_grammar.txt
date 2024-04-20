@@ -1,0 +1,90 @@
+
+# SYNTAX
+
+# Represents a sentence with one or two clauses
+# Not supported:
+# * multiple la
+# * multiple o
+# * e ni: clauses - split them up at tokenisation
+S -> Cl | NP_o Cl | Cl_la Cl
+
+# Represents a clause
+Cl_la -> Cl F_la
+Cl -> Pron Pred | Subj li_Pred | Subj o_Pred | o_Pred | Interj | NP
+
+# Represents a NP in the subject position
+# Subject NPs can be conjoined using en
+Subj -> NP | NP F_en Subj
+
+# Represents a NP in the vocative
+NP_o -> NP F_o
+
+# Represents a noun phrase, or more accurately a contentive phrase
+# Not supported:
+# * infinite modifiers
+# * nested or chained pi
+NP -> N_core | N_core F_pi N_core
+N_core -> N | N N | N N N | N N N N
+
+# Represents a predicate, i.e. verb phrase including arguments and adjuncts
+# May be conjoined using li or o
+li_Pred -> F_li Pred
+o_Pred -> F_o Pred
+Pred -> VP PP | VP li_Pred | VP o_Pred | VP
+
+# Represents a verb phrase, excludes arguments or adjuncts
+# May have modal verbs
+# May be a contentive phrase or a prepositional phrase
+# Not implemented:
+# * V ala V questions
+VP -> MVP VP | PP_core | NP
+MVP -> MV | MV F_ala
+
+# Represents a prepositional phrase, which may be an argument or an adjunct
+PP -> PP_core PP | PP_core
+PP_core -> Prep NP
+
+# Represents function words that require special syntactic behaviour
+# Could use string literals directly, but that breaks word order on tree charts
+F_la -> "la"
+F_li -> "li"
+F_o -> "o"
+F_pi -> "pi"
+F_en -> "en"
+F_ala -> "ala"
+
+
+# PARTS OF SPEECH
+
+# Contentives
+# Known in the community as "content words"
+# Including placeholder loan word, which is up to tokenisers
+N -> "a" | "akesi" | "ala" | "alasa" | "ale" | "ali" | "anpa" | "ante" | "apeja" | "awen" | "epiku" | "esun" | "ijo" | "ike" | "ilo" | "insa" | "jaki" | "jan" | "jasima" | "jelo" | "jo" | "kala" | "kalama" | "kama" | "kapesi" | "kasi" | "ken" | "kepeken" | "kijetesantakalu" | "kiki" | "kili" | "kin" | "kipisi" | "kiwen" | "ko" | "kokosila" | "kon" | "ku" | "kule" | "kulupu" | "kute" | "lanpan" | "lape" | "laso" | "lawa" | "leko" | "len" | "lete" | "lili" | "linja" | "linluwi" | "lipu" | "loje" | "lon" | "luka" | "lukin" | "lupa" | "ma" | "majuna" | "mama" | "mani" | "meli" | "meso" | "mi" | "mije" | "misikeke" | "moku" | "moli" | "monsi" | "monsuta" | "mu" | "mulapisu" | "mun" | "musi" | "mute" | "namako" | "nanpa" | "nasa" | "nasin" | "nena" | "ni" | "nimi" | "noka" | "oke" | "oko" | "olin" | "ona" | "open" | "pakala" | "pake" | "pali" | "palisa" | "pan" | "pana" | "pata" | "pilin" | "pimeja" | "pini" | "pipi" | "poka" | "poki" | "pona" | "powe" | "pu" | "puwa" | "sama" | "seli" | "selo" | "seme" | "sewi" | "sijelo" | "sike" | "sin" | "sina" | "sinpin" | "sitelen" | "soko" | "sona" | "soweli" | "suli" | "suno" | "supa" | "suwi" | "tan" | "taso" | "tawa" | "telo" | "tenpo" | "toki" | "tomo" | "tonsi" | "tu" | "unpa" | "usawi" | "uta" | "utala" | "walo" | "wan" | "waso" | "wawa" | "weka" | "wile" | "'Name'"
+
+# Pronouns with implicit li
+# Not a part of speech, but very useful
+Pron -> "mi" | "sina"
+
+# Numerals
+# Treated as contentives for now
+# Num -> "wan" | "tu" | "luka" | "mute" | "ale"
+
+# Modal verbs
+# The list of modal verbs differs from person to person,
+# My personal TP use includes open/pini
+MV -> "awen" | "kama" | "ken" | "sona" | "wile" | "lukin" | "alasa" | "open" | "pini"
+
+# Prepositions
+# anu is not a preposition, but implementing anu perfectly is hard
+Prep -> "en" | "e" | "lon" | "tawa" | "tan" | "kepeken" | "anu"
+
+# Interjections
+Interj -> "a" | "mu"
+
+# The following are implemented on an individual basis:
+# Postpositions
+# Post -> "la" | "o"
+# Conjunctions
+# Conj -> "anu" | "taso" | "la"
+# Particles
+# Part -> "li" | "o" | "pi" | "nanpa"

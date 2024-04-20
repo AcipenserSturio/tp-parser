@@ -14,7 +14,17 @@ rd_parser = nltk.RecursiveDescentParser(grammar1)
 def tokenize(sent: str) -> list:
     sent = re.sub(r"[^\w\s]", "", sent)
     sent = re.sub(r"[A-Z][a-z]*", "LOAN", sent)
-    return sent.split()
+    sent = sent.split()
+    for index, word in enumerate(sent):
+        if index == 0 or index == len(sent)-1:
+            continue
+        if word == "ala" and sent[index-1] == sent[index+1]:
+            word = sent[index+1]
+            sent[index+1] = "_" # duplicate
+            sent[index] = "_" # ala
+            sent[index-1] = f"{word}_ala_{word}"
+    sent = [word for word in sent if word != "_"]
+    return sent
 
 def parse(sent: str):
     sent = tokenize(sent)

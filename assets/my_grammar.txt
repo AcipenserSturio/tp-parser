@@ -28,7 +28,7 @@ NP_o -> NP F_o
 # * infinite modifiers
 # * nested or chained pi
 NP -> N_core | N_core F_pi N_core
-N_core -> N | N N | N N N | N N N N
+N_core -> N | NQ | N N | N N N | N N N N
 
 # Represents a predicate, i.e. verb phrase including arguments and adjuncts
 # May be conjoined using li or o
@@ -42,11 +42,11 @@ Pred -> VP PP | VP li_Pred | VP o_Pred | VP
 # Not implemented:
 # * V ala V questions
 VP -> MVP VP | PP_core | NP
-MVP -> MV F_ala | MV
+MVP -> MVQ | MV F_ala | MV
 
 # Represents a prepositional phrase, which may be an argument or an adjunct
 PP -> PP_core PP | PP_core
-PP_core -> Prep NP
+PP_core -> Prep NP | PrepQ NP
 
 # Represents function words that require special syntactic behaviour
 # Could use string literals directly, but that breaks word order on tree charts
@@ -66,6 +66,11 @@ F_taso -> "taso"
 # Including placeholder loan word, which is up to tokenisers
 N -> "a" | "akesi" | "ala" | "alasa" | "ale" | "ali" | "anpa" | "ante" | "apeja" | "awen" | "epiku" | "esun" | "ijo" | "ike" | "ilo" | "insa" | "jaki" | "jan" | "jasima" | "jelo" | "jo" | "kala" | "kalama" | "kama" | "kapesi" | "kasi" | "ken" | "kepeken" | "kijetesantakalu" | "kiki" | "kili" | "kin" | "kipisi" | "kiwen" | "ko" | "kokosila" | "kon" | "ku" | "kule" | "kulupu" | "kute" | "lanpan" | "lape" | "laso" | "lawa" | "leko" | "len" | "lete" | "lili" | "linja" | "linluwi" | "lipu" | "loje" | "lon" | "luka" | "lukin" | "lupa" | "ma" | "majuna" | "mama" | "mani" | "meli" | "meso" | "mi" | "mije" | "misikeke" | "moku" | "moli" | "monsi" | "monsuta" | "mu" | "mulapisu" | "mun" | "musi" | "mute" | "namako" | "nanpa" | "nasa" | "nasin" | "nena" | "ni" | "nimi" | "noka" | "oke" | "oko" | "olin" | "ona" | "open" | "pakala" | "pake" | "pali" | "palisa" | "pan" | "pana" | "pata" | "pilin" | "pimeja" | "pini" | "pipi" | "poka" | "poki" | "pona" | "powe" | "pu" | "puwa" | "sama" | "seli" | "selo" | "seme" | "sewi" | "sijelo" | "sike" | "sin" | "sina" | "sinpin" | "sitelen" | "soko" | "sona" | "soweli" | "suli" | "suno" | "supa" | "suwi" | "tan" | "taso" | "tawa" | "telo" | "tenpo" | "toki" | "tomo" | "tonsi" | "tu" | "unpa" | "usawi" | "uta" | "utala" | "walo" | "wan" | "waso" | "wawa" | "weka" | "wile" | "LOAN"
 
+# Contentives used in questions
+# Implemented as a dictionary instead of a parsing command
+# In order to guarantee matching contentives on either side of ala
+NQ -> "a_ala_a" | "akesi_ala_akesi" | "ala_ala_ala" | "alasa_ala_alasa" | "ale_ala_ale" | "ali_ala_ali" | "anpa_ala_anpa" | "ante_ala_ante" | "apeja_ala_apeja" | "awen_ala_awen" | "epiku_ala_epiku" | "esun_ala_esun" | "ijo_ala_ijo" | "ike_ala_ike" | "ilo_ala_ilo" | "insa_ala_insa" | "jaki_ala_jaki" | "jan_ala_jan" | "jasima_ala_jasima" | "jelo_ala_jelo" | "jo_ala_jo" | "kala_ala_kala" | "kalama_ala_kalama" | "kama_ala_kama" | "kapesi_ala_kapesi" | "kasi_ala_kasi" | "ken_ala_ken" | "kepeken_ala_kepeken" | "kijetesantakalu_ala_kijetesantakalu" | "kiki_ala_kiki" | "kili_ala_kili" | "kin_ala_kin" | "kipisi_ala_kipisi" | "kiwen_ala_kiwen" | "ko_ala_ko" | "kokosila_ala_kokosila" | "kon_ala_kon" | "ku_ala_ku" | "kule_ala_kule" | "kulupu_ala_kulupu" | "kute_ala_kute" | "lanpan_ala_lanpan" | "lape_ala_lape" | "laso_ala_laso" | "lawa_ala_lawa" | "leko_ala_leko" | "len_ala_len" | "lete_ala_lete" | "lili_ala_lili" | "linja_ala_linja" | "linluwi_ala_linluwi" | "lipu_ala_lipu" | "loje_ala_loje" | "lon_ala_lon" | "luka_ala_luka" | "lukin_ala_lukin" | "lupa_ala_lupa" | "ma_ala_ma" | "majuna_ala_majuna" | "mama_ala_mama" | "mani_ala_mani" | "meli_ala_meli" | "meso_ala_meso" | "mi_ala_mi" | "mije_ala_mije" | "misikeke_ala_misikeke" | "moku_ala_moku" | "moli_ala_moli" | "monsi_ala_monsi" | "monsuta_ala_monsuta" | "mu_ala_mu" | "mulapisu_ala_mulapisu" | "mun_ala_mun" | "musi_ala_musi" | "mute_ala_mute" | "namako_ala_namako" | "nanpa_ala_nanpa" | "nasa_ala_nasa" | "nasin_ala_nasin" | "nena_ala_nena" | "ni_ala_ni" | "nimi_ala_nimi" | "noka_ala_noka" | "oke_ala_oke" | "oko_ala_oko" | "olin_ala_olin" | "ona_ala_ona" | "open_ala_open" | "pakala_ala_pakala" | "pake_ala_pake" | "pali_ala_pali" | "palisa_ala_palisa" | "pan_ala_pan" | "pana_ala_pana" | "pata_ala_pata" | "pilin_ala_pilin" | "pimeja_ala_pimeja" | "pini_ala_pini" | "pipi_ala_pipi" | "poka_ala_poka" | "poki_ala_poki" | "pona_ala_pona" | "powe_ala_powe" | "pu_ala_pu" | "puwa_ala_puwa" | "sama_ala_sama" | "seli_ala_seli" | "selo_ala_selo" | "seme_ala_seme" | "sewi_ala_sewi" | "sijelo_ala_sijelo" | "sike_ala_sike" | "sin_ala_sin" | "sina_ala_sina" | "sinpin_ala_sinpin" | "sitelen_ala_sitelen" | "soko_ala_soko" | "sona_ala_sona" | "soweli_ala_soweli" | "suli_ala_suli" | "suno_ala_suno" | "supa_ala_supa" | "suwi_ala_suwi" | "tan_ala_tan" | "taso_ala_taso" | "tawa_ala_tawa" | "telo_ala_telo" | "tenpo_ala_tenpo" | "toki_ala_toki" | "tomo_ala_tomo" | "tonsi_ala_tonsi" | "tu_ala_tu" | "unpa_ala_unpa" | "usawi_ala_usawi" | "uta_ala_uta" | "utala_ala_utala" | "walo_ala_walo" | "wan_ala_wan" | "waso_ala_waso" | "wawa_ala_wawa" | "weka_ala_weka" | "wile_ala_wile" | "LOAN_ala_LOAN"
+
 # Pronouns with implicit li
 # Not a part of speech, but very useful
 Pron -> "mi" | "sina"
@@ -78,10 +83,12 @@ Pron -> "mi" | "sina"
 # The list of modal verbs differs from person to person,
 # My personal TP use includes open/pini
 MV -> "awen" | "kama" | "ken" | "sona" | "wile" | "lukin" | "alasa" | "open" | "pini"
+MVQ -> "awen_ala_awen" | "kama_ala_kama" | "ken_ala_ken" | "sona_ala_sona" | "wile_ala_wile" | "lukin_ala_lukin" | "alasa_ala_alasa" | "open_ala_open" | "pini_ala_pini"
 
 # Prepositions
 # anu is not a preposition, but implementing anu perfectly is hard
 Prep -> "en" | "e" | "lon" | "tawa" | "tan" | "kepeken" | "sama" | "anu"
+PrepQ -> "lon_ala_lon" | "tawa_ala_tawa" | "tan_ala_tan" | "kepeken_ala_kepeken" | "sama_ala_sama"
 
 # Interjections
 Interj -> "a" | "mu"

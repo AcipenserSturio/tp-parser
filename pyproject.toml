@@ -22,3 +22,4 @@ distribution = true
 
 [tool.pdm.scripts]
 parse = "python -m tp_parser"
+test = "python -m tp_parser --test"

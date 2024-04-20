@@ -1,12 +1,15 @@
 
 # SYNTAX
 
+# Catches taso conjunction
+S -> F_taso Sent | Sent
+
 # Represents a sentence with one or two clauses
 # Not supported:
 # * multiple la
 # * multiple o
 # * e ni: clauses - split them up at tokenisation
-S -> Cl | NP_o Cl | Cl_la Cl
+Sent -> Cl | NP_o Cl | Cl_la Cl
 
 # Represents a clause
 Cl_la -> Cl F_la
@@ -14,7 +17,8 @@ Cl -> Pron Pred | Subj li_Pred | Subj o_Pred | o_Pred | Interj | NP
 
 # Represents a NP in the subject position
 # Subject NPs can be conjoined using en
-Subj -> NP | NP F_en Subj
+# Allows rare prepositional phrases in subjects
+Subj -> NP | NP F_en Subj | NP PP_core
 
 # Represents a NP in the vocative
 NP_o -> NP F_o
@@ -38,7 +42,7 @@ Pred -> VP PP | VP li_Pred | VP o_Pred | VP
 # Not implemented:
 # * V ala V questions
 VP -> MVP VP | PP_core | NP
-MVP -> MV | MV F_ala
+MVP -> MV F_ala | MV
 
 # Represents a prepositional phrase, which may be an argument or an adjunct
 PP -> PP_core PP | PP_core
@@ -52,6 +56,7 @@ F_o -> "o"
 F_pi -> "pi"
 F_en -> "en"
 F_ala -> "ala"
+F_taso -> "taso"
 
 
 # PARTS OF SPEECH
@@ -76,7 +81,7 @@ MV -> "awen" | "kama" | "ken" | "sona" | "wile" | "lukin" | "alasa" | "open" | "
 
 # Prepositions
 # anu is not a preposition, but implementing anu perfectly is hard
-Prep -> "en" | "e" | "lon" | "tawa" | "tan" | "kepeken" | "anu"
+Prep -> "en" | "e" | "lon" | "tawa" | "tan" | "kepeken" | "sama" | "anu"
 
 # Interjections
 Interj -> "a" | "mu"

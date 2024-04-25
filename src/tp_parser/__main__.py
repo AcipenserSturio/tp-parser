@@ -40,6 +40,8 @@ def is_parsed(string: str) -> bool:
 def get_test_sentences():
     with open(TATOEBA) as f:
         for _, _, text in csv.reader(f, delimiter="\t"):
+            text = re.sub("\d+", "", text)
+            text = re.sub("\"", "", text)
             text = re.sub(VOCATIVE_BOUNDARY, ". ", text)
             sents = re.split(SENT_BOUNDARY, text)
             for sent in sents:
@@ -57,7 +59,7 @@ def get_test_sentences():
 
 def tokenize(sent: str) -> list:
     sent = re.sub(r"[^\w\s]", "", sent)
-    sent = re.sub(r"[A-Z][a-z]*", "LOAN", sent)
+    sent = re.sub(r"[A-Z]\w*", "LOAN", sent)
     sent = sent.split()
     for index, word in enumerate(sent):
         if index == 0 or index == len(sent)-1:
@@ -82,19 +84,29 @@ def parse(sent: str):
     return tree
 
 
+def parse_all(sent: str):
+    sent = tokenize(sent)
+    for tree in rd_parser.parse(sent):
+        tree.collapse_unary()
+        tree.draw()
+
 def test_parser():
     for index, sent in enumerate(get_test_sentences()):
-        if is_parsed(sent):
+        try:
+            if is_parsed(sent):
+                continue
+            print(index)
+            tree = parse(sent)
+            # tree.pretty_print()
+
+            tree = tree.pformat(margin=99999) if tree else "FAILED"
+            if tree == "FAILED":
+                print(f"FAILED #{index}: {sent}")
+
+            add_parsed(sent, tree)
+        except Exception:
+            # This is just to prevent stupid crashes overnight
             continue
-        print(index)
-        tree = parse(sent)
-        # tree.pretty_print()
-
-        tree = tree.pformat(margin=99999) if tree else "FAILED"
-        if tree == "FAILED":
-            print(f"FAILED #{index}: {sent}")
-
-        add_parsed(sent, tree)
 
 
 if __name__ == "__main__":
@@ -112,4 +124,4 @@ if __name__ == "__main__":
         test_parser()
     else:
         sent = input()
-        parse(sent)
+        parse_all(sent)
